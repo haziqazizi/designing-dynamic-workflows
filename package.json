@@ -1,0 +1,30 @@
+{
+  "name": "@haziqazizi/designing-dynamic-workflows",
+  "version": "1.0.0",
+  "description": "Design and runtime-binding guidance for reliable multi-agent dynamic workflows.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haziqazizi/designing-dynamic-workflows.git"
+  },
+  "keywords": [
+    "pi-package",
+    "agent-skill",
+    "multi-agent",
+    "dynamic-workflows"
+  ],
+  "files": [
+    "SKILL.md",
+    "reference/",
+    "README.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "skills": [
+      "."
+    ]
+  },
+  "scripts": {
+    "test": "node scripts/check.mjs"
+  }
+}

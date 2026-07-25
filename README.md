@@ -43,7 +43,13 @@ mkdir -p ~/.claude/skills
 git clone https://github.com/haziqazizi/designing-dynamic-workflows.git ~/.claude/skills/designing-dynamic-workflows
 ```
 
-No API keys or runtime deps. The skill is markdown: `SKILL.md` plus `reference/`.
+No API keys or runtime dependencies are required for design-only use. The repository is also package-shaped so another Pi package can pin an exact Git commit without publishing it to the npm registry.
+
+Direct Pi install:
+
+```bash
+pi install git:github.com/haziqazizi/designing-dynamic-workflows
+```
 
 ## How to use
 
@@ -89,7 +95,8 @@ designing-dynamic-workflows/
     ├── rubrics-and-gates.md           # rubric recipe and calibration
     ├── antipatterns.md                # research-backed failure modes
     ├── creative-generation.md         # image/video case study
-    └── implementations.md            # code-mode runtimes survey
+    ├── implementations.md            # code-mode runtimes survey
+    └── pi-dynamic-workflows.md        # adapter for the registered Pi workflow tools
 ```
 
 ## Quick smells (before you ship a design)
@@ -108,7 +115,8 @@ The meta-failure behind most of these: **correlated errors wearing an independen
 ## Related
 
 - Full agent contract: [`SKILL.md`](./SKILL.md)
-- Companion runtime experiment (Pi): [pi-dynamic-workflows](https://github.com/haziqazizi/pi-dynamic-workflows)
+- Supported Pi runtime: [@quintinshaw/pi-dynamic-workflows](https://github.com/QuintinShaw/pi-dynamic-workflows)
+- The Pi adapter keeps the runtime-owned authoring and built-in-pattern contracts as the executable source of truth.
 
 ## License
 

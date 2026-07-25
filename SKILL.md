@@ -1,6 +1,6 @@
 ---
 name: designing-dynamic-workflows
-description: "Designs multi-agent dynamic workflows: picks topology, agent differentiation, convergence/selection method, stopping rules, isolation, and quality gates; writes judge rubrics; avoids research-backed antipatterns. Use when orchestrating fleets of agents or subagents — fan-outs, tournaments, debates, review pipelines, evaluator-optimizer loops, generate-and-filter, or any 'spawn N agents and combine results' design."
+description: "Designs and implements multi-agent dynamic workflows: picks topology, agent differentiation, convergence, stopping rules, isolation, and quality gates, then applies the installed runtime contract. Use when orchestrating fleets of agents or subagents, including pi-dynamic-workflows scripts, fan-outs, tournaments, debates, review pipelines, evaluator-optimizer loops, generate-and-filter, or any 'spawn N agents and combine results' design."
 ---
 
 # Designing Dynamic Workflows
@@ -63,6 +63,10 @@ Before finalizing, read `reference/antipatterns.md` in full and check the design
 
 Quick smells: fan-out over a guessed decomposition (no scout); agents seeing siblings' in-flight work; same model generating and stop-judging its own loop; majority vote as the decider; "sample until tests pass"; a human "reviewing" 40 outputs at the end; no termination predicate; silent dropping of failed items.
 
+## Step 6 — Bind the design to the installed runtime
+
+When the registered `workflow` / `workflow_control` capability is available, read `reference/pi-dynamic-workflows.md` before choosing a built-in workflow, authoring JavaScript, or constructing tool arguments. That adapter requires the runtime-owned `workflow-patterns` contract for named built-ins and `workflow-authoring` contract for custom scripts. Keep those implementation contracts hidden from automatic skill routing; this skill is the single visible entrypoint.
+
 ## Reference map
 
 Required reading per step (Steps 0–5 above each name their file). Two files are domain-gated rather than step-gated, but equally required when their domain is in play: `creative-generation.md` is mandatory for any workflow producing images or video, and `implementations.md` is mandatory when implementing or choosing a code-mode orchestration runtime.
@@ -75,3 +79,4 @@ Required reading per step (Steps 0–5 above each name their file). Two files ar
 - `reference/rubrics-and-gates.md` — rubric writing recipe, calibration, Anthropic Managed Outcomes
 - `reference/antipatterns.md` — research-backed failure modes per axis, with the correlated-errors meta-pattern
 - `reference/implementations.md` — code-mode implementations survey, extension case study, autoresearch (reality-as-judge), sourcing caveats
+- `reference/pi-dynamic-workflows.md` — required adapter for the registered Pi workflow and workflow-control tools
