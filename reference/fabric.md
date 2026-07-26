@@ -4,18 +4,32 @@ Use this adapter when the `fabric_exec` tool is available. The design method in 
 
 ## Load the runtime-owned contract
 
-`fabric_exec` runs one type-checked TypeScript program against Pi's capabilities. Read the runtime-owned authoring contract rather than reconstructing the API from memory:
+`fabric_exec` runs one type-checked TypeScript program against Pi's capabilities. Read the runtime-owned contract rather than reconstructing the API from memory:
 
 - **Core authoring** — the `fabric_exec` API (`pi.*`, `agent()`, `parallel()`, `pipeline()`, `mesh`, discovery, structured outputs, error recovery): the **`fabric-exec`** skill. It is model-invoked, so it sits in Pi's advertised catalog; read it directly.
-- **Advanced multi-agent patterns** — invoke **`/skill:fabric-guide`**. It recommends the smallest sufficient pattern (fan-out→verify, council, cross-provider fusion, selection ladder, evaluator-optimizer, trajectory audit, resumable fan-out, postmortem field guide, recursive orchestration, neutral integration) and never runs it.
+- **Advanced patterns** — each is a runnable `fabric_exec` template packaged as a `fabric-*` skill. They are deliberately kept *out* of the model's always-on catalog so their descriptions don't crowd context — but you reach any of them on demand: pick one from the routing table below and **read its `SKILL.md`**, then follow it. `disable-model-invocation` only hides a skill from automatic catalog selection; the file is still yours to read. When this skill is installed as `node_modules/@haziqazizi/designing-dynamic-workflows` beside the runtime, they resolve at `../../pi-fabric/skills/<name>/SKILL.md`; otherwise use the installed package location the host supplies. (Users can also invoke any directly with `/skill:fabric-<name>`, and `/skill:fabric-guide` routes for them.)
 
-When this skill is installed as `node_modules/@haziqazizi/designing-dynamic-workflows` beside the runtime, the pattern skills resolve as `../../pi-fabric/skills/<name>/SKILL.md`. If no runtime contract can be read, stop before writing a `fabric_exec` program and report the missing integration; do not reconstruct the API from memory.
+## Route to the smallest sufficient pattern
 
-## Route before authoring
+Before authoring anything: a direct answer or a single `agent()` beats any pattern — do not reach for a fleet by default (`reference/efficient-execution.md`). When a pattern does fit, read its `SKILL.md` and follow it; do not hand-write an equivalent.
 
-1. **Question, conversation, or direct task:** answer or work directly. Do not reach for `fabric_exec` merely because it is available — a single agent working directly is often the right answer (`reference/efficient-execution.md`).
-2. **A named advanced pattern matches:** invoke `/skill:fabric-guide`, follow the recommended `/skill:fabric-*`, and pass the task through its documented `strings`. Do not hand-write an equivalent program.
-3. **Custom decomposable work, no matching pattern:** complete the relevant design steps and references in this skill, then read the `fabric-exec` skill and author the `fabric_exec` program directly.
+| Need | Pattern to read (`pi-fabric/skills/<name>/`) |
+|---|---|
+| Discover → fan-out → verify a bounded work set | `fabric-workflow` |
+| Independent same-model reviewer roles + synthesis | `fabric-council` |
+| Cross-provider model panel compared by a judge | `fabric-fusion` |
+| Pick one winner from competing artifacts | `fabric-select` |
+| Refine one artifact against an explicit rubric | `fabric-optimize` |
+| Audit a delegated run's "done" claims against its transcript | `fabric-trajectory-judge` |
+| Long fan-out that must survive interruption and resume cheaply | `fabric-resume` |
+| Merge competing branches from a worktree fan-out | `fabric-integrate` |
+| Turn a run's failures into durable steering (a field guide) | `fabric-postmortem` |
+| Late-session campaign a clean-context child should orchestrate | `fabric-orchestrate` |
+| Work too large for one context window | `fabric-rlm` |
+| Evidence-gated / transactional local-file mutation | `fabric-schema` |
+| Persistent peer advice, goal-watching, or a durable actor team | `fabric-advisor` · `fabric-supervisor` · `fabric-ambient` · `fabric-swarm` |
+
+If no pattern matches, complete the relevant design steps in this skill, then read the `fabric-exec` skill and author the `fabric_exec` program directly. If no runtime contract can be read, stop and report the missing integration.
 
 ## Map the design onto Fabric primitives
 
