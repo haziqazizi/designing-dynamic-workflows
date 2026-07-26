@@ -28,6 +28,8 @@ Every workflow is a selection along six axes. This is the whole design space —
 
 Prefer *fixed named menus* of lenses/strategies over freeform variation — orthogonality by construction, and an empty lens is itself information.
 
+The strongest differentiation lever is **provider distance**: a model *family* shares training data and blind spots, so two models from one vendor are far more correlated than their names suggest. When multiple providers are available, put at least one cross-provider member in any panel whose miss costs something — field evidence from cross-provider review panels shows bug classes caught *only* by the out-of-family reviewer. Pin the foreign model explicitly; tools that silently fall back to the house model defeat the purpose without telling you.
+
 ### Axis 3 — Convergence (how results combine)
 
 - **Synthesis** — a model reads everything and judges. Default. Never replace judgment with a scoring formula; use formulas only for mechanical facts.
@@ -53,7 +55,9 @@ Beyond these, there is a whole ladder of selection approaches ordered by groundi
 - **Context isolation** (free): agents never see siblings' work. Non-negotiable for any diversity- or variance-based pattern — one leak invalidates the measurement.
 - **Worktree isolation** (costs setup): required the moment agents mutate files in parallel. Always tear down.
 - **Files as memory**: each stage writes named artifacts the next stage reads. Makes runs resumable, interruptible, auditable.
+- **Stigmergic memory (the field guide)**: a shared, agent-curated store the environment injects into every agent at start — coordination through the medium, not through chat (how ant colonies coordinate without a controller). Three rules make it work rather than rot, all from swarm theory (Bonabeau/Dorigo/Theraulaz) and a production instance (Cursor's "Field Guide", 2026): **deposit on surprise** — capture the unexpected encounter, not every event, since weights are frozen and only surprises shorten the next trajectory; **a hard line/entry budget is the evaporation term** — the cap forces the swarm to overwrite weak entries, and without it the store stagnates on early consensus (the formal ACO result: amplification with no evaporation converges the whole colony on one sub-optimal path); and **reality-couple the deposits** — a shared text store that reinforces unverified claims is a memory-poisoning vector, so let deposits be earned by tests passing, builds breaking, or reproduced evidence, not by assertion. Stigmergy is safe exactly when the trace is reality-coupled and dangerous when it's just more model output.
 - **Fresh context on retry**: feed a rejected attempt's *rejection reason* to a new agent — never ask the author to defend its own work.
+- **The locally-in-distribution (LID) test**: for each call in the design, ask — does this agent see a prompt that looks like something models have seen a million of (one item, one objective, one output contract), or a bloated one-off (forty tool outputs and a running commentary)? Transformers are unreliable compositional generalizers; the workflow's code must carry the composition (loops, dependencies, data flow through artifacts) so every model call stays a familiar atom. This is the mechanistic reason artifacts-beat-summaries, fresh-context-retry, and thin-orchestrator all work — and it applies to the orchestrator itself: an orchestration authored from a long, noisy context inherits that noise (Zhang & Khattab, "LM harnesses are compositional generalizers", 2026).
 
 ### Axis 6 — Gates (what blocks bad output)
 

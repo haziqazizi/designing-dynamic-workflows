@@ -72,7 +72,8 @@ The agent should treat `SKILL.md` as an **index** and read the named `reference/
 | 2 | How to pick among candidates | `reference/convergence-and-selection.md` |
 | 3 | How to compose phases (widen / narrow) | `reference/composition-patterns.md` |
 | 4 | Rubrics and quality gates | `reference/rubrics-and-gates.md` |
-| 5 | Antipattern check | `reference/antipatterns.md` |
+| 5 | Cheapest sufficient path (effort routing, escalation, budgets) | `reference/efficient-execution.md` |
+| 6 | Antipattern check | `reference/antipatterns.md` |
 
 Domain-gated (required when that domain is in play):
 
@@ -93,6 +94,7 @@ designing-dynamic-workflows/
     ├── convergence-and-selection.md   # selection ladder; debate/tournament
     ├── composition-patterns.md        # funnel, diverge→converge, loops
     ├── rubrics-and-gates.md           # rubric recipe and calibration
+    ├── efficient-execution.md         # cheapest-sufficient-path + frontier alignment
     ├── antipatterns.md                # research-backed failure modes
     ├── creative-generation.md         # image/video case study
     ├── implementations.md            # code-mode runtimes survey

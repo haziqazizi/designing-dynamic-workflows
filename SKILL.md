@@ -7,6 +7,8 @@ description: "Designs and implements multi-agent dynamic workflows: picks topolo
 
 A dynamic workflow is a small deterministic program orchestrating a fleet of agents. The program is dumb and reliable (loops, fan-outs, gates in real code); the agents are smart and unreliable. One line: **a single agent has one perspective and stops at its first plausible answer; a workflow buys many independent perspectives and refuses to stop early.**
 
+Useful mental model: a workflow is a **probabilistic compiler**. A compiler lowers intent to executable steps preserving meaning at every step; a workflow lowers a goal into task-trees and agent calls but is *probabilistic at every step*. Everything in this skill — isolation, gates, verification, stopping rules — exists to close that gap between "lowered the intent" and "preserved the meaning."
+
 The one-sentence design law: **independence is the instrument, convergence is the measurement, the model is the judge, code is the referee, files are the memory, and the writer never grades their own homework.**
 
 This file is an index, not a substitute for the reference material. Full detail, examples, case studies, and citations live in `reference/` — one file per topic. **Reading the reference file named at each step is required before making that step's decision.** The summaries below only tell you which file to read and what decision it governs.
@@ -18,6 +20,8 @@ Use a workflow when: the task is too wide for one context (60 files, 8 subsystem
 Do NOT use one when: you know the file and the fix (just do it); steps depend on each other's judgment at every turn (that's a conversation); or the work is inherently sequential (bisect).
 
 Rule of thumb: **workflow when you can name the items or perspectives in advance.** If you can't write the list, scout first (cheap, inline), then fan out over what you found. Read `reference/concepts-and-examples.md` before deciding — it holds the four worked examples (code review, premortem, spec replication, PRD-to-code) that calibrate what a good workflow looks like.
+
+Frontier-model calibration: first-shot correctness on complex *well-specified* problems has moved the fan-out threshold up — spec quality substitutes for fan-out. Spend on the spec first; fan out for independence, width, or competition, never as a default posture (`reference/efficient-execution.md`).
 
 ## Step 1 — Design along the six axes
 
@@ -57,7 +61,13 @@ Read `reference/composition-patterns.md` before chaining phases. Alternate **wid
 
 Read `reference/rubrics-and-gates.md` before writing any rubric — it holds the full recipe and the calibration steps everyone skips. The big three: decompose to **atomic binary yes/no checks** (2–10 items, one constraint each); use the **lowest-precision scale** that captures the distinction (never 1–10); **one criterion per judge call**, aggregate in code. Write the rubric blind to candidate outputs; require verbatim evidence per check; validate against a small gold set and stress-test with known-bad outputs — a rubric that passes everything is a rubber stamp.
 
-## Step 5 — Check against the antipatterns
+Phrasing constraint: ask judges for **externalized evidence, never reasoning transcripts** — verbatim tool-output quotes, per-criterion verdicts, confidence tags. "Show your full reasoning" prompts can trigger the `reasoning_extraction` refusal on Claude Fable 5 and silently drop the item (`reference/efficient-execution.md` §14).
+
+## Step 5 — Take the cheapest sufficient path
+
+Read `reference/efficient-execution.md` before finalizing the execution plan. Efficiency is refusing to pay for redundancy that doesn't buy confidence: single agent first (fan out for independence, width, or competition only); route **effort per stage role** (`low` scouts, `high` generation, `high`–`xhigh` verification, code — not agents — for deterministic transforms); funnel ordering; **staged escalation, never silent escalation** (escalate one notch on gate failure and log it); reuse long-lived subagents asynchronously instead of spawn-and-block; measure → invest before fleet spend; hard budgets fixed before spawning. The same file holds the frontier-prompting alignment rules: de-prescribe worker prompts but keep gates prescriptive, ground progress claims in tool results, pass intent downstream, workers-report-findings-only boundaries, no token countdowns, artifacts over summarized relays.
+
+## Step 6 — Check against the antipatterns
 
 Before finalizing, read `reference/antipatterns.md` in full and check the design against every axis's failure modes. The meta-failure behind most of them: **correlated errors wearing an independence costume** — personas, panels, replicas, retries, and votes all look like independent evidence and are all draws from nearly the same distribution. Everything that works pushes against correlation (structural isolation, distant assignments, external verifiers, cross-family judges) or prices it in (contested verdicts, minority veto).
 
@@ -69,7 +79,7 @@ When the registered `workflow` / `workflow_control` capability is available, rea
 
 ## Reference map
 
-Required reading per step (Steps 0–5 above each name their file). Two files are domain-gated rather than step-gated, but equally required when their domain is in play: `creative-generation.md` is mandatory for any workflow producing images or video, and `implementations.md` is mandatory when implementing or choosing a code-mode orchestration runtime.
+Required reading per step (Steps 0–6 above each name their file). Two files are domain-gated rather than step-gated, but equally required when their domain is in play: `creative-generation.md` is mandatory for any workflow producing images or video, and `implementations.md` is mandatory when implementing or choosing a code-mode orchestration runtime.
 
 - `reference/concepts-and-examples.md` — what workflows are, when to use one, four worked examples (code review, premortem, spec replication, PRD-to-code)
 - `reference/six-axes.md` — full tables for topology, differentiation, convergence, iteration, isolation, gates
@@ -77,6 +87,7 @@ Required reading per step (Steps 0–5 above each name their file). Two files ar
 - `reference/composition-patterns.md` — funnel, diverge→converge, evaluator-optimizer, scout→fan-out, seam review, canary→rollout, and the widening/narrowing grammar
 - `reference/creative-generation.md` — image/video generation case study: regression protection, VLM checklist judges, feedback design, judge lineage
 - `reference/rubrics-and-gates.md` — rubric writing recipe, calibration, Anthropic Managed Outcomes
+- `reference/efficient-execution.md` — cheapest-sufficient-path doctrine (effort routing, staged escalation, reuse-over-respawn, budgets) and alignment with Anthropic's frontier prompting guide (de-prescription, `reasoning_extraction`, grounded progress claims, intent propagation)
 - `reference/antipatterns.md` — research-backed failure modes per axis, with the correlated-errors meta-pattern
 - `reference/implementations.md` — code-mode implementations survey, extension case study, autoresearch (reality-as-judge), sourcing caveats
 - `reference/pi-dynamic-workflows.md` — required adapter for the registered Pi workflow and workflow-control tools

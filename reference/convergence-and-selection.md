@@ -115,6 +115,8 @@ Rubric judging is one point on a spectrum. The full menu, ordered from strongest
 
 **The standing alternative: don't select — synthesize.** When candidates have complementary strengths, grafting beats any picker, because picking assumes the best whole candidate contains the best of everything, which is usually false.
 
+**Decorrelated lenses stack (the self-driving argument for review).** No single reviewer catches everything, but *decorrelated* reviewers compound the way a self-driving stack reaches above-human reliability with no single perfect component. Decorrelate the **lens**, not just the model: give one reviewer the worker's full transcript (catches process failures — unread files, fabricated steps), another only the output (catches artifact defects without process anchoring), another only the codebase with no context (catches integration/seam bugs), and vary the model or provider across them (catches family-correlated blind spots). Each lens is blind to a different failure class, so their union covers more than any one deepened. Two consequences: this is why cross-*provider* panels beat deepened same-model ones (Axis 2), and why review is worth heavy spend — **review is far cheaper than the work it audits**, so a stacked review pass is high-return even at several reviewers per finding. The failure to avoid is redundant lenses (three reviewers all reading the diff the same way) — that's the correlated-panel antipattern, not a stack.
+
 ### The decision procedure (recommended default)
 
 When actually picking between options, run this six-step procedure in order:
