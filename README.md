@@ -98,7 +98,8 @@ designing-dynamic-workflows/
     ├── antipatterns.md                # research-backed failure modes
     ├── creative-generation.md         # image/video case study
     ├── implementations.md            # code-mode runtimes survey
-    └── pi-dynamic-workflows.md        # adapter for the registered Pi workflow tools
+    ├── fabric.md                      # runtime adapter for the fabric_exec tool
+    └── pi-dynamic-workflows.md        # runtime adapter for the registered Pi workflow tools
 ```
 
 ## Quick smells (before you ship a design)
@@ -117,8 +118,8 @@ The meta-failure behind most of these: **correlated errors wearing an independen
 ## Related
 
 - Full agent contract: [`SKILL.md`](./SKILL.md)
-- Supported Pi runtime: [@quintinshaw/pi-dynamic-workflows](https://github.com/QuintinShaw/pi-dynamic-workflows)
-- The Pi adapter keeps the runtime-owned authoring and built-in-pattern contracts as the executable source of truth.
+- Supported Pi runtimes: [pi-fabric](https://github.com/haziqazizi/pi-fabric) (via `reference/fabric.md`) and [@quintinshaw/pi-dynamic-workflows](https://github.com/QuintinShaw/pi-dynamic-workflows) (via `reference/pi-dynamic-workflows.md`).
+- Each adapter self-gates on its runtime's presence and keeps the runtime-owned authoring contracts as the executable source of truth; the design method here stays runtime-agnostic.
 
 ## License
 

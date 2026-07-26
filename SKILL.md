@@ -1,6 +1,6 @@
 ---
 name: designing-dynamic-workflows
-description: "Designs and implements multi-agent dynamic workflows: picks topology, agent differentiation, convergence, stopping rules, isolation, and quality gates, then applies the installed runtime contract. Use when orchestrating fleets of agents or subagents, including pi-dynamic-workflows scripts, fan-outs, tournaments, debates, review pipelines, evaluator-optimizer loops, generate-and-filter, or any 'spawn N agents and combine results' design."
+description: "Designs and implements multi-agent dynamic workflows: picks topology, agent differentiation, convergence, stopping rules, isolation, and quality gates, then applies the installed runtime contract. Use when orchestrating fleets of agents or subagents, including fabric_exec programs and pi-dynamic-workflows scripts, fan-outs, tournaments, debates, review pipelines, evaluator-optimizer loops, generate-and-filter, or any 'spawn N agents and combine results' design."
 ---
 
 # Designing Dynamic Workflows
@@ -73,13 +73,18 @@ Before finalizing, read `reference/antipatterns.md` in full and check the design
 
 Quick smells: fan-out over a guessed decomposition (no scout); agents seeing siblings' in-flight work; same model generating and stop-judging its own loop; majority vote as the decider; "sample until tests pass"; a human "reviewing" 40 outputs at the end; no termination predicate; silent dropping of failed items.
 
-## Step 6 — Bind the design to the installed runtime
+## Step 7 — Bind the design to the installed runtime
 
-When the registered `workflow` / `workflow_control` capability is available, read `reference/pi-dynamic-workflows.md` before choosing a built-in workflow, authoring JavaScript, or constructing tool arguments. That adapter requires the runtime-owned `workflow-patterns` contract for named built-ins and `workflow-authoring` contract for custom scripts. Keep those implementation contracts hidden from automatic skill routing; this skill is the single visible entrypoint.
+Read the adapter for the runtime you are actually on before authoring anything runtime-specific. The design method here owns *whether and how*; the runtime package owns *executable syntax*.
+
+- When the `fabric_exec` tool is available, read `reference/fabric.md` — it maps the six axes onto Fabric primitives, points at the `fabric-exec` authoring contract, and uses `/skill:fabric-guide` to route to the advanced patterns.
+- When the registered `workflow` / `workflow_control` capability is available, read `reference/pi-dynamic-workflows.md` — it requires the runtime-owned `workflow-patterns` contract for named built-ins and `workflow-authoring` for custom scripts.
+
+Read only the adapter whose runtime is present. This skill is the single visible entrypoint; keep runtime implementation contracts out of automatic skill routing.
 
 ## Reference map
 
-Required reading per step (Steps 0–6 above each name their file). Two files are domain-gated rather than step-gated, but equally required when their domain is in play: `creative-generation.md` is mandatory for any workflow producing images or video, and `implementations.md` is mandatory when implementing or choosing a code-mode orchestration runtime.
+Required reading per step (Steps 0–7 above each name their file). Two files are domain-gated rather than step-gated, but equally required when their domain is in play: `creative-generation.md` is mandatory for any workflow producing images or video, and `implementations.md` is mandatory when implementing or choosing a code-mode orchestration runtime.
 
 - `reference/concepts-and-examples.md` — what workflows are, when to use one, four worked examples (code review, premortem, spec replication, PRD-to-code)
 - `reference/six-axes.md` — full tables for topology, differentiation, convergence, iteration, isolation, gates
@@ -90,4 +95,5 @@ Required reading per step (Steps 0–6 above each name their file). Two files ar
 - `reference/efficient-execution.md` — cheapest-sufficient-path doctrine (effort routing, staged escalation, reuse-over-respawn, budgets) and alignment with Anthropic's frontier prompting guide (de-prescription, `reasoning_extraction`, grounded progress claims, intent propagation)
 - `reference/antipatterns.md` — research-backed failure modes per axis, with the correlated-errors meta-pattern
 - `reference/implementations.md` — code-mode implementations survey, extension case study, autoresearch (reality-as-judge), sourcing caveats
-- `reference/pi-dynamic-workflows.md` — required adapter for the registered Pi workflow and workflow-control tools
+- `reference/fabric.md` — runtime adapter for the `fabric_exec` tool: maps the design onto Fabric primitives, points at `fabric-exec` + `/skill:fabric-guide`
+- `reference/pi-dynamic-workflows.md` — runtime adapter for the registered Pi workflow and workflow-control tools
