@@ -1,6 +1,6 @@
 ---
 name: designing-dynamic-workflows
-description: "Designs and implements multi-agent dynamic workflows: picks topology, agent differentiation, convergence, stopping rules, isolation, and quality gates, then applies the installed runtime contract. Use when orchestrating fleets of agents or subagents, including fabric_exec programs and pi-dynamic-workflows scripts, fan-outs, tournaments, debates, review pipelines, evaluator-optimizer loops, generate-and-filter, or any 'spawn N agents and combine results' design."
+description: "Designs and implements multi-agent dynamic workflows: picks topology, agent differentiation, convergence, stopping rules, isolation, and quality gates, then applies the installed runtime contract. Use when orchestrating fleets of agents or subagents through pi-dynamic-workflows: fan-outs, tournaments, debates, review pipelines, evaluator-optimizer loops, generate-and-filter, or any 'spawn N agents and combine results' design."
 ---
 
 # Designing Dynamic Workflows
@@ -77,10 +77,10 @@ Quick smells: fan-out over a guessed decomposition (no scout); agents seeing sib
 
 Read the adapter for the runtime you are actually on before authoring anything runtime-specific. The design method here owns *whether and how*; the runtime package owns *executable syntax*.
 
-- When the `fabric_exec` tool is available, read `reference/fabric.md` — it maps the six axes onto Fabric primitives, points at the `fabric-exec` authoring contract, and uses `/skill:fabric-guide` to route to the advanced patterns.
-- When the registered `workflow` / `workflow_control` capability is available, read `reference/pi-dynamic-workflows.md` — it requires the runtime-owned `workflow-patterns` contract for named built-ins and `workflow-authoring` for custom scripts.
+- For every workflow that creates subagents, require the registered `workflow` / `workflow_control` capability and read `reference/pi-dynamic-workflows.md`. It requires the runtime-owned `workflow-patterns` contract for named built-ins and `workflow-authoring` for custom scripts. If that capability is absent, stop instead of falling back to another agent runtime.
+- When `fabric_exec` is the host tool path, read `reference/fabric.md` only for deterministic Pi/MCP/extension/Schema calls and for launching the captured Dynamic tools. Fabric must not create subagents.
 
-Read only the adapter whose runtime is present. This skill is the single visible entrypoint; keep runtime implementation contracts out of automatic skill routing.
+This skill is the single visible orchestration entrypoint. Runtime implementation contracts remain hidden and load only after the runtime choice.
 
 ## Reference map
 
@@ -95,5 +95,5 @@ Required reading per step (Steps 0–7 above each name their file). Two files ar
 - `reference/efficient-execution.md` — cheapest-sufficient-path doctrine (effort routing, staged escalation, reuse-over-respawn, budgets) and alignment with Anthropic's frontier prompting guide (de-prescription, `reasoning_extraction`, grounded progress claims, intent propagation)
 - `reference/antipatterns.md` — research-backed failure modes per axis, with the correlated-errors meta-pattern
 - `reference/implementations.md` — code-mode implementations survey, extension case study, autoresearch (reality-as-judge), sourcing caveats
-- `reference/fabric.md` — runtime adapter for the `fabric_exec` tool: maps the design onto Fabric primitives, points at `fabric-exec` + `/skill:fabric-guide`
+- `reference/fabric.md` — host-tool adapter for deterministic `fabric_exec` calls and captured Dynamic workflow launch; it forbids Fabric subagents
 - `reference/pi-dynamic-workflows.md` — runtime adapter for the registered Pi workflow and workflow-control tools
