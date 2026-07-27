@@ -118,8 +118,8 @@ The meta-failure behind most of these: **correlated errors wearing an independen
 ## Related
 
 - Full agent contract: [`SKILL.md`](./SKILL.md)
-- Supported Pi runtimes: [pi-fabric](https://github.com/haziqazizi/pi-fabric) (via `reference/fabric.md`) and [@quintinshaw/pi-dynamic-workflows](https://github.com/QuintinShaw/pi-dynamic-workflows) (via `reference/pi-dynamic-workflows.md`).
-- Each adapter self-gates on its runtime's presence and keeps the runtime-owned authoring contracts as the executable source of truth; the design method here stays runtime-agnostic.
+- Supported Pi profile: upstream [pi-fabric](https://github.com/monotykamary/pi-fabric) is the deterministic host-tool runtime, while upstream [@quintinshaw/pi-dynamic-workflows](https://github.com/QuintinShaw/pi-dynamic-workflows) is the sole subagent runtime. The adapters are `reference/fabric.md` and `reference/pi-dynamic-workflows.md`.
+- Runtime-owned authoring contracts stay hidden and load only when selected. This skill owns routing: direct deterministic work stays in Fabric; every subagent runs through Dynamic Workflows.
 
 ## License
 
